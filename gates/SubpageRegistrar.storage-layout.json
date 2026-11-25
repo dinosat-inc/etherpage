@@ -1,0 +1,136 @@
+{
+  "storage": [
+    {
+      "label": "config",
+      "slot": "0",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_struct(Config)_storage)"
+    },
+    {
+      "label": "proceedsOf",
+      "slot": "1",
+      "offset": 0,
+      "type": "t_mapping(t_address,t_uint256)"
+    },
+    {
+      "label": "subCommitments",
+      "slot": "2",
+      "offset": 0,
+      "type": "t_mapping(t_bytes32,t_uint256)"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_bool": {
+      "encoding": "inplace",
+      "label": "bool",
+      "numberOfBytes": "1"
+    },
+    "t_bytes32": {
+      "encoding": "inplace",
+      "label": "bytes32",
+      "numberOfBytes": "32"
+    },
+    "t_mapping(t_address,t_uint256)": {
+      "encoding": "mapping",
+      "label": "mapping(address => uint256)",
+      "numberOfBytes": "32",
+      "key": "t_address",
+      "value": "t_uint256"
+    },
+    "t_mapping(t_bytes32,t_uint256)": {
+      "encoding": "mapping",
+      "label": "mapping(bytes32 => uint256)",
+      "numberOfBytes": "32",
+      "key": "t_bytes32",
+      "value": "t_uint256"
+    },
+    "t_mapping(t_uint256,t_struct(Config)_storage)": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => struct SubpageRegistrar.Config)",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_struct(Config)_storage"
+    },
+    "t_struct(Config)_storage": {
+      "encoding": "inplace",
+      "label": "struct SubpageRegistrar.Config",
+      "numberOfBytes": "128",
+      "members": [
+        {
+          "label": "controller",
+          "slot": "0",
+          "offset": 0,
+          "type": "t_address"
+        },
+        {
+          "label": "enabled",
+          "slot": "0",
+          "offset": 20,
+          "type": "t_bool"
+        },
+        {
+          "label": "commitReveal",
+          "slot": "0",
+          "offset": 21,
+          "type": "t_bool"
+        },
+        {
+          "label": "feeToken",
+          "slot": "1",
+          "offset": 0,
+          "type": "t_address"
+        },
+        {
+          "label": "price",
+          "slot": "1",
+          "offset": 20,
+          "type": "t_uint96"
+        },
+        {
+          "label": "gateToken",
+          "slot": "2",
+          "offset": 0,
+          "type": "t_address"
+        },
+        {
+          "label": "minGateBalance",
+          "slot": "2",
+          "offset": 20,
+          "type": "t_uint96"
+        },
+        {
+          "label": "payout",
+          "slot": "3",
+          "offset": 0,
+          "type": "t_address"
+        },
+        {
+          "label": "parentEpoch",
+          "slot": "3",
+          "offset": 20,
+          "type": "t_uint64"
+        }
+      ]
+    },
+    "t_uint256": {
+      "encoding": "inplace",
+      "label": "uint256",
+      "numberOfBytes": "32"
+    },
+    "t_uint64": {
+      "encoding": "inplace",
+      "label": "uint64",
+      "numberOfBytes": "8"
+    },
+    "t_uint96": {
+      "encoding": "inplace",
+      "label": "uint96",
+      "numberOfBytes": "12"
+    }
+  }
+}

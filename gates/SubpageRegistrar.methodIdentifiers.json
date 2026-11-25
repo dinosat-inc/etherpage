@@ -1,0 +1,16 @@
+{
+  "claimProceeds(address)": "6282d503",
+  "claimProceedsFor(address)": "ed2e0d4a",
+  "commitSubpage(bytes32)": "34c1af83",
+  "config(uint256)": "84691767",
+  "configure(uint256,address,address,uint256,bool,address,uint256,bool)": "a6530175",
+  "disable(uint256)": "9946b9a5",
+  "makeSubpageCommitment(uint256,string,address,bytes32)": "7c63441d",
+  "proceedsOf(address)": "9194eae7",
+  "registerSubpage(uint256,string,uint256,address)": "189bd520",
+  "registerSubpageFor(uint256,string,address,uint256,address)": "7b75bd15",
+  "registry()": "7b103999",
+  "revealSubpage(uint256,string,bytes32,uint256,address)": "d7df25d0",
+  "revealSubpageFor(uint256,string,address,bytes32,uint256,address)": "3c211a1e",
+  "subCommitments(bytes32)": "92e3dfed"
+}

@@ -1,0 +1,18 @@
+# build output and caches of every profile
+out/
+cache/
+out-*/
+cache-*/
+gates-*/
+nometa-*/
+
+# test and proof run output
+logs/
+tmp-halmos/
+
+# deployments
+broadcast/
+.env
+
+# macOS
+.DS_Store

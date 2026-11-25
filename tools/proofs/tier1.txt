@@ -1,0 +1,70 @@
+# One proof per line: <tag> <Contract> <function> <seconds> [loop bound, default 4], longest first.
+# Run with: tools/proofs/run_queue.sh tools/proofs/tier1.txt <parallel runs>
+# Tier 1 of 4, run in order: money, trial, deposit, status and self referral proofs, MC5 in three parts and the mint rule. The combined proofs are in umbrella.txt.
+status StatusProofsTest check_FS2b 28800
+status StatusProofsTest check_FS2c 28800
+money MoneyProofsTest check_FM1rT0 20400
+money MoneyProofsTest check_FM1rT1 20400
+money MoneyProofsTest check_FM1rT2 20400
+money MoneyProofsTest check_FM1rT3 20400
+money MoneyProofsTest check_FM1tT_revealTrial 20400
+money MoneyProofsTest check_FM1rP0 18000
+status StatusProofsTest check_FS1a 18000
+status StatusProofsTest check_FS1b 18000
+status StatusProofsTest check_FS2d 18000
+money MoneyProofsTest check_FM1wP_withdraw 14400
+status StatusProofsTest check_RF1_makeCommitmentRefusesSelf 14400
+money MoneyRoutingProofsTest check_FM1rR0 14400
+money MoneyRoutingProofsTest check_FM1rR1 14400
+money MoneyRoutingProofsTest check_FM1rR2 14400
+status StatusProofsTest check_FS1c 14400
+status StatusProofsTest check_FS2a 14400
+money MoneyProofsTest check_FM1wT_withdraw 12600
+money MoneyProofsTest check_FM1rP1 12000
+money MoneyProofsTest check_FM1rP2 12000
+money MoneyProofsTest check_FM2g3 12000
+money MoneyProofsTest check_FM2g1 8400
+mc5 PaidCallProofsTest check_MC5pr_reveal 7200 6
+money MoneyProofsTest check_FM2g0 7200
+money MoneyProofsTest check_FM1nP_renew 6600
+mc5 PaidCallProofsTest check_MC5pt_revealTrial 5400 6
+money MoneyProofsTest check_FM1m3 4800
+money MoneyProofsTest check_FM1m4 4800
+money MoneyProofsTest check_FM1nT_renew 4800
+money MoneyProofsTest check_FM2g2 4800
+status StatusProofsTest check_FS1d_deadHeldTopLevelIsInvalid 4800
+money MoneyProofsTest check_FM1m0 3600
+money MoneyProofsTest check_FM1m1 3600
+money MoneyProofsTest check_FM1m2 3600
+money MoneyProofsTest check_FM1tP_revealTrial 3600
+mc5 PaidCallProofsTest check_MC5pn_renew 2400 6
+mc5 PaidCallProofsTest check_MC5q_quoteIsThePrice 3600 6
+money MoneyProofsTest check_FM1l_release 2400
+money MoneyProofsTest check_FM2g4 2400
+money MoneyProofsTest check_FM2g5 2400
+deposit DepositProofsTest check_DP1_release 1800
+deposit DepositProofsTest check_DP2_trialOverRecord 1800
+deposit DepositProofsTest check_DP3_paidOverEndedTrial 1800
+deposit DepositProofsTest check_DP4_conversion 1800
+deposit DepositProofsTest check_DP5_status 1800
+deposit DepositProofsTest check_RF2_selfReferralRefused 1800
+mc5 PaidCallProofsTest check_MC5f_pricesAboveZero 1800
+mc5 PaidCallProofsTest check_MC5v_valueRefusedFirst 1800
+mint MintProofsTest check_HM1r_reveal 1800
+mint MintProofsTest check_HM1s_registerSubpageFor 1800
+mint MintProofsTest check_HM1t_revealTrial 1800
+money MoneyProofsTest check_FM3_trialOverEndedTrial 1800
+status StatusProofsTest check_FS3_statusRevertsExactlyWithMetadata 1800
+status StatusProofsTest check_RF2s_revealRefusesSelf 1800
+trial TrialInterplayProofsTest check_MT1_trialNeverRunsInABundle 1800
+trial TrialInterplayProofsTest check_MT2_lapsedTrialCannotRevive 1800
+trial TrialProofsTest check_T1_T5_trial 1800
+trial TrialProofsTest check_T2_noPremiumWithoutDeposit 1800
+trial TrialProofsTest check_T3_unpaidMovesOnlyToDead 1800
+trial TrialProofsTest check_T4_noSubpageUnderUnpaid 1800
+trial TrialProofsTest check_T6_viewsAgree 1800
+trial TrialProofsTest check_T7_renewOfATrial 1800
+trial TrialProofsTest check_T8_paidOverLapsedTrial 1800
+trial TrialProofsTest check_T9_commitmentFormsAreSeparate 1800
+trial TrialProofsTest check_T10_onlyTheTrialFormServesATrial 1800
+deposit DepositProofsTest check_DP5d_deadHeldStatus 1800

@@ -1,0 +1,6 @@
+{
+  "Committed(bytes32,address)": "0xfda886b5d38d5d61e432b3acc9f19640a2b8c83c87a9c584a780d3854b309b9c",
+  "ParentConfigured(uint256,address,address,address,uint256,address,uint256,bool,bool,uint64)": "0x6668f7620f13d18b0715295611a87babb9e0a811e95674caa40e5c0064bbb054",
+  "ProceedsClaimed(address,address,uint256)": "0x674e6c79bd3c06a58f64d75219ad0763533fd64795ae25618b020ef2c07f524c",
+  "SubpageSold(uint256,uint256,address,address,address,address,uint256,string)": "0xf6b587c09a69a0b03ad88f1fb48c00bf144c1daa3d800816017ca1157be110ea"
+}

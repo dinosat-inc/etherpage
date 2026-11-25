@@ -1,0 +1,281 @@
+# One proof per line: <tag> <Contract> <function> <seconds> [loop bound, default 4], longest first.
+# Run with: tools/proofs/run_queue.sh tools/proofs/umbrella.txt <parallel runs>
+# Combined proofs, each also proven in parts listed in the tier files, and at the end the proofs of proofs/wide with no
+# recorded PASS, each group with its reason. These runs are optional and long.
+clear ClearPrimaryProofsTest test_check_CP1_transfers 43200
+holder HolderProofsTest test_check_HD1_reverseResolve 43200
+holder HolderProofsTest test_check_HD4b 43200
+holder HolderProofsTest test_check_HD4g 43200
+holder HolderProofsTest test_check_HD4g1s 43200
+holder HolderProofsTest test_check_HD4g1t 43200
+holder HolderProofsTest test_check_HD4tr 43200
+holder HolderProofsTest test_check_HD4xs 43200
+holder HolderProofsTest test_check_HD4xt 43200
+minter MinterProofsTest test_check_MP6_minterMintFrame 43200
+minter MinterProofsTest test_check_MP7_anyCallByNonHolder 43200
+minter MinterProofsTest test_check_MP7dA_eachCallButChoice 43200
+minter MinterProofsTest test_check_MP7d_eachCallByNonHolder 43200
+mc5 PaidCallProofsTest check_MC5p_belowPriceReverts 43200 6
+money MoneyProofsTest check_FM1m_releaseThenWithdraw 43200
+money MoneyProofsTest check_FM1rP_reveal 43200
+money MoneyProofsTest check_FM1rT_reveal 43200
+money MoneyProofsTest check_FM2_otherCallsMoveNoMoney 43200
+multicall MulticallProofsTest test_check_MC2_transfersAndApprovals 43200
+multicall MulticallProofsTest test_check_MC2a_approvals 43200
+multicall MulticallProofsTest test_check_MC2t_transfers 43200
+multicall MulticallProofsTest test_check_MC5_paidCallsFail 43200
+profile ProfileProofsTest test_check_PP2_everyCall 43200
+profile ProfileProofsTest test_check_PP2_w15 43200
+profile ProfileProofsTest test_check_PP7_transfersAsReference 43200
+profile ProfileProofsTest test_check_PP8_bundles 43200
+profile ProfileProofsTest test_check_PP9_viewsAsReference 43200
+profile ProfileProofsTest test_check_PP9s0 43200
+profile ProfileProofsTest test_check_PP9s0h1 43200
+profile ProfileProofsTest test_check_PP9s0h2 43200
+profile ProfileProofsTest test_check_PP9s0h3 43200
+profile ProfileProofsTest test_check_PP9s1 43200
+profile ProfileProofsTest test_check_PP9s2 43200
+profile ProfileProofsTest test_check_PP9t0 43200
+status StatusProofsTest check_FS1_topLevelStatusIsMetadata 43200
+status StatusProofsTest check_FS2_subpageStatusIsMetadata 43200
+# DA2 is DA2a, DA2b and DA2c. DA2a, DA2b and DA2y end in Halmos 0.3.3 with NotConcreteError, a symbolic memory offset
+# from the stored length of the entry of a symbolic coin type (DA2b passed on the earlier prototype, with fewer paths).
+# Their parts: DA2x (who may save, and what is stored), DA2c (a wrong length), and the frame of a save by the holder,
+# DA2w1 to DA2w4 for 20 bytes and DA2v1 to DA2v4 for an empty value, each for four coin types. A failed call keeps
+# every state by the revert.
+default DefaultProofsTest test_check_DA2_onlyHolderWrites 21600
+default DefaultSplitProofsTest test_check_DA2a_twentyBytes 14400
+default DefaultAuthProofsTest test_check_DA2y_holderWriteMovesNothingElse 14400
+default DefaultSplitProofsTest test_check_DA2b_empty 7200
+# DA3 is DA3r. In Halmos 0.3.3 DA3 depends on two 1 ms queries that tell the default entry from the entry of the
+# symbolic coin type. When the one after the call times out, h_entry copies a stored length it cannot fix and the run
+# ends with NotConcreteError (it did once). When the one inside the save times out, the clean-up of an old long value
+# runs with a symbolic bound and hits the loop bound. DA3r reads the default entry after the call as its two storage
+# words, and writes the never written entry of the coin type again as its zeros before the call. The save's read then
+# meets those zeros by its key alone, and a timeout elsewhere leaves only a word for the assertion solver.
+default DefaultProofsTest test_check_DA3_otherCoinsKeepTheDefault 1800
+# DA2z1 to DA2z3 and DA2e1 to DA2e3 are DA2z1r to DA2z3r and DA2e1r to DA2e3r. In Halmos 0.3.3 they depend on 1 ms
+# queries that tell the default entry from the entry of the symbolic coin type. When one times out, the harness's save
+# of that entry after the default (in the start state) or the call's save of the default cleans up an old long value
+# with a symbolic bound and hits the loop bound, and h_entry of that entry after the call copies a stored length it
+# cannot fix and ends with NotConcreteError. The r versions write each entry again as the words it holds, checked first,
+# right before the reads that would pass the other entry, and read that entry after the call as its two storage words.
+default DefaultFrameProofsTest test_check_DA2z1_keyHolder 1200
+default DefaultFrameProofsTest test_check_DA2z2_sevenHolder 1200
+default DefaultFrameProofsTest test_check_DA2z3_codeHolder 1200
+default DefaultFrameEmptyAnyCoinProofsTest test_check_DA2e1_keyHolder 1200
+default DefaultFrameEmptyAnyCoinProofsTest test_check_DA2e2_sevenHolder 1200
+default DefaultFrameEmptyAnyCoinProofsTest test_check_DA2e3_codeHolder 1200
+# DA1 is DA1r60 with DA1rHi, and DA1n is DA1nr. In Halmos 0.3.3 both depend on a 1 ms query in their start state, which
+# writes the default entry and then the entry of the symbolic coin type. That second save reads the old value of its
+# entry past the default entry's stores, and only the query tells the two keys apart. When it times out, the clean-up
+# of an old long value runs with a symbolic bound and hits the loop bound (DA1n did once, a PASS with that warning).
+# The robust proofs check that the never written entry of the coin type is zero and write it again as its zeros before
+# the save, so the save's reads meet those zeros by their key alone. That needs the test and the harness to build the
+# key from the same term. Once a path holds coinType == 60, Halmos hands 60 to a callee that reads the coin type from
+# its calldata while the test still holds the symbol, so DA1 is split where its assumption branches: DA1r60 fixes the
+# coin type at 60, where every key is built from constants, and DA1rHi takes the EVM coin types above the default with
+# no equality in its assumptions. The only reads left that pass a store of the other key are the checked reads of the
+# zeros, which end in an assertion, and DA1rHi's reads of the default, which turn the value into 20 bytes with no copy
+# and no loop.
+default DefaultNonEvmProofsTest test_check_DA1n_noFallbackOutsideTheEvm 7200
+default DefaultProofsTest test_check_DA1_answerRule 3600
+
+# The proofs of proofs/wide (6 November 2026) with no recorded PASS, each group with its reason.
+# Inherited: proofs/wide/WideRevealPieces.t.sol and WideAnyStatePieces.t.sol inherit the proofs of WideRevealProofsTest and
+# WideAnyStateProofsTest, which are listed under their own contract; running them here proves the same claim again.
+wide WideAnyStatePiecesTest check_WAS1_release 7200
+wide WideAnyStatePiecesTest check_WAS2_renew 7200
+wide WideAnyStatePiecesTest check_WAS2b_renew 10800
+wide WideAnyStatePiecesTest check_WAS3_reveal 14400
+wide WideAnyStatePiecesTest check_WAS4_revealTrial 14400
+wide WideAnyStatePiecesTest check_WAS5_withdraw 3600
+wide WideRevealPiecesTest check_WCM_commit 1800
+wide WideRevealPiecesTest check_WRN_renew 7200
+wide WideRevealPiecesTest check_WRV1_reveal 21600
+wide WideRevealPiecesTest check_WRV2_revealTrial 21600
+wide WideRevealPiecesTest check_WRV3_revealState 21600
+wide WideRevealPiecesTest check_WRV4_revealTrialState 21600
+wide WideRevealPiecesTest check_WWD_withdraw 1800
+wide WideRevealPiecesTest check_WWDr_reentrantPayee 1800
+# WRV1 to WRV4 did not finish (WRV2 and WRV3 ran out of 6 hours, WRV1 and WRV4 were stopped), on an earlier version of
+# their file. WideRevealPiecesTest proves them in parts, the premium window at four fixed seconds (see the tB pieces).
+wide WideRevealProofsTest check_WRV1_reveal 21600
+wide WideRevealProofsTest check_WRV2_revealTrial 21600
+wide WideRevealProofsTest check_WRV3_revealState 21600
+wide WideRevealProofsTest check_WRV4_revealTrialState 21600
+# The WRVq pieces with k1 (the call's own commitment): the WRVs piece of the same case with f1 passed, and covers each,
+# as it also takes the secret and the rest of the state symbolic.
+piece WideRevealPiecesTest check_WRVq_P0_e00_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P0_e00_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P0_e00_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P0_e00_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P0_e00_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P0_e00_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P0_e01_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P0_e01_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P0_e01_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P0_e01_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P0_e01_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P0_e01_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P0_e10_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P0_e10_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P0_e10_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P0_e10_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P0_e10_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P0_e10_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P0_e11_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P0_e11_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P0_e11_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P0_e11_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P0_e11_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P0_e11_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P0_n_k1 3600
+piece WideRevealPiecesTest check_WRVq_P1_e00_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P1_e00_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P1_e00_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P1_e00_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P1_e00_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P1_e00_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P1_e01_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P1_e01_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P1_e01_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P1_e01_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P1_e01_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P1_e01_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P1_e10_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P1_e10_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P1_e10_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P1_e10_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P1_e10_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P1_e10_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P1_e11_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P1_e11_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P1_e11_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P1_e11_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P1_e11_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P1_e11_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P1_n_k1 3600
+piece WideRevealPiecesTest check_WRVq_P2_e00_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P2_e00_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P2_e00_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P2_e00_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P2_e01_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P2_e01_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P2_e01_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P2_e01_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P2_e01_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P2_e01_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P2_e10_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P2_e10_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P2_e10_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P2_e10_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P2_e10_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P2_e10_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P2_e11_k1_tA 3600
+piece WideRevealPiecesTest check_WRVq_P2_e11_k1_tB1 3600
+piece WideRevealPiecesTest check_WRVq_P2_e11_k1_tB2 3600
+piece WideRevealPiecesTest check_WRVq_P2_e11_k1_tB3 3600
+piece WideRevealPiecesTest check_WRVq_P2_e11_k1_tB4 3600
+piece WideRevealPiecesTest check_WRVq_P2_e11_k1_tC 3600
+piece WideRevealPiecesTest check_WRVq_P2_n_k1 3600
+piece WideRevealPiecesTest check_WRVq_T0_e00_k1 3600
+piece WideRevealPiecesTest check_WRVq_T0_e01_k1 3600
+piece WideRevealPiecesTest check_WRVq_T0_e10_k1 3600
+piece WideRevealPiecesTest check_WRVq_T0_e11_k1 3600
+piece WideRevealPiecesTest check_WRVq_T0_n_k1 3600
+piece WideRevealPiecesTest check_WRVq_T1_e00_k1 3600
+piece WideRevealPiecesTest check_WRVq_T1_e01_k1 3600
+piece WideRevealPiecesTest check_WRVq_T1_e10_k1 3600
+piece WideRevealPiecesTest check_WRVq_T1_e11_k1 3600
+piece WideRevealPiecesTest check_WRVq_T1_n_k1 3600
+piece WideRevealPiecesTest check_WRVq_T2_e00_k1 1200
+piece WideRevealPiecesTest check_WRVq_T2_e01_k1 3600
+piece WideRevealPiecesTest check_WRVq_T2_e10_k1 3600
+piece WideRevealPiecesTest check_WRVq_T2_e11_k1 3600
+piece WideRevealPiecesTest check_WRVq_T2_n_k1 3600
+# The tB pieces (any second of the premium window): a symbolic second there did not finish in Halmos 0.3.3 (WRVq_P2_e00_k1_tB
+# ran out of 1200 s on an earlier version of the file, also with a 100 ms branch timeout). tB1 to tB4 take four fixed
+# seconds; FM1rR and MC5p/MC5q of the tiers cover the premium at every second.
+piece WideRevealPiecesTest check_WRVq_P0_e00_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P0_e01_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P0_e10_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P0_e11_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P0_e_k2_tB 3600
+piece WideRevealPiecesTest check_WRVq_P1_e00_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P1_e01_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P1_e10_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P1_e11_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P1_e_k2_tB 3600
+piecebt WideRevealPiecesTest check_WRVq_P2_e00_k1_tB 1200
+piece WideRevealPiecesTest check_WRVq_P2_e01_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P2_e10_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P2_e11_k1_tB 3600
+piece WideRevealPiecesTest check_WRVq_P2_e_k2_tB 3600
+piece WideRevealPiecesTest check_WRVs_P0_e00_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P0_e01_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P0_e10_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P0_e11_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P0_e_f2_tB 3600
+piece WideRevealPiecesTest check_WRVs_P1_e00_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P1_e01_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P1_e10_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P1_e11_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P1_e_f2_tB 3600
+piece WideRevealPiecesTest check_WRVs_P2_e00_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P2_e01_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P2_e10_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P2_e11_f1_tB 3600
+piece WideRevealPiecesTest check_WRVs_P2_e_f2_tB 3600
+# WRV5 and WRV6 stop at once in Halmos 0.3.3 (Z3 "Invalid argument index") on a storage slot keyed by a hash of
+# symbolic label bytes. test/unit/naming/RevealEveryShortLabel.t.sol reveals every 1 and 2 byte label for real instead.
+wide WideRevealLabelProofsTest check_WRV5_revealSymbolicLabel 14400 8
+wide WideRevealLabelProofsTest check_WRV6_revealTrialSymbolicLabel 14400 8
+# WAS2 ran out of 2 hours and WAS2b was not run alone. The 18 WAS2p cases of WideAnyStatePiecesTest prove WAS2b's claim,
+# which implies WAS2's, in parts.
+wide WideAnyStateProofsTest check_WAS2_renew 7200
+wide WideAnyStateProofsTest check_WAS2b_renew 10800
+# reveal and revealTrial from any state (WAS3, WAS4 and their WAS3p and WAS4p cases) did not finish (WAS3 ran out of
+# 4 hours, WAS4p_0_n of 1 hour), and most cases were not run: the smallest narrowed case needs about 13,000 paths. The
+# README gives the argument by reading.
+was WideAnyStatePiecesTest check_WAS3p_0_d0 3600
+was WideAnyStatePiecesTest check_WAS3p_0_d1_tA 3600
+was WideAnyStatePiecesTest check_WAS3p_0_d1_tB1 3600
+was WideAnyStatePiecesTest check_WAS3p_0_d1_tB2 3600
+was WideAnyStatePiecesTest check_WAS3p_0_d1_tB3 3600
+was WideAnyStatePiecesTest check_WAS3p_0_d1_tB4 3600
+was WideAnyStatePiecesTest check_WAS3p_0_d1_tC 3600
+was WideAnyStatePiecesTest check_WAS3p_0_n 3600
+was WideAnyStatePiecesTest check_WAS3p_1_d0 3600
+was WideAnyStatePiecesTest check_WAS3p_1_d1_tA 3600
+was WideAnyStatePiecesTest check_WAS3p_1_d1_tB1 3600
+was WideAnyStatePiecesTest check_WAS3p_1_d1_tB2 3600
+was WideAnyStatePiecesTest check_WAS3p_1_d1_tB3 3600
+was WideAnyStatePiecesTest check_WAS3p_1_d1_tB4 3600
+was WideAnyStatePiecesTest check_WAS3p_1_d1_tC 3600
+was WideAnyStatePiecesTest check_WAS3p_1_n 3600
+was WideAnyStatePiecesTest check_WAS3p_2_d0 3600
+was WideAnyStatePiecesTest check_WAS3p_2_d1_tA 3600
+was WideAnyStatePiecesTest check_WAS3p_2_d1_tB1 3600
+was WideAnyStatePiecesTest check_WAS3p_2_d1_tB2 3600
+was WideAnyStatePiecesTest check_WAS3p_2_d1_tB3 3600
+was WideAnyStatePiecesTest check_WAS3p_2_d1_tB4 3600
+was WideAnyStatePiecesTest check_WAS3p_2_d1_tC 3600
+was WideAnyStatePiecesTest check_WAS3p_2_n 3600
+was WideAnyStatePiecesTest check_WAS4p_0_d0 3600
+was WideAnyStatePiecesTest check_WAS4p_0_d1 3600
+was WideAnyStatePiecesTest check_WAS4p_0_n 3600
+was WideAnyStatePiecesTest check_WAS4p_1_d0 3600
+was WideAnyStatePiecesTest check_WAS4p_1_d1 3600
+was WideAnyStatePiecesTest check_WAS4p_1_n 3600
+was WideAnyStatePiecesTest check_WAS4p_2_d0 3600
+was WideAnyStatePiecesTest check_WAS4p_2_d1 3600
+was WideAnyStatePiecesTest check_WAS4p_2_n 3600
+wide WideAnyStateProofsTest check_WAS3_reveal 14400
+wide WideAnyStateProofsTest check_WAS4_revealTrial 14400
+# WLB for 7 to 12 bytes: not run. WLB_len6 took 751 s and each byte multiplies the time about four to five times.
+# Longer labels are checked by example in test/unit/naming (LabelEnumeration, LabelPaths, AddressSwaps).
+wide WideLabelProofsTest check_WLB_len10 43200 13
+wide WideLabelProofsTest check_WLB_len12 43200 15
+wide WideLabelProofsTest check_WLB_len7 43200 10
+wide WideLabelProofsTest check_WLB_len8 43200 11

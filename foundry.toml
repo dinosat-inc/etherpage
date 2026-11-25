@@ -1,0 +1,70 @@
+# The default profile holds the deploy settings. Every build meant for deployment uses it.
+[profile.default]
+src = "src"
+test = "test"
+script = "script"
+out = "out"
+cache_path = "cache"
+libs = ["lib"]
+solc_version = "0.8.38"
+evm_version = "prague"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+remappings = [
+  "solady/=lib/solady/src/",
+  "soledge/=lib/soledge/src/",
+  "forge-std/=lib/forge-std/src/",
+]
+# the differential walks keep two deployments and every view in memory for a whole run
+gas_limit = "18446744073709551615"
+memory_limit = 2147483648
+# one transaction per test, as the tests, the gas measurements and the deploy script's nonce check are written:
+# Foundry 1.8 otherwise runs each call of a test or script as its own transaction, which adds its base cost to
+# every measured call and takes a nonce of the sender before the script reads it
+isolate = false
+# tests read the card fixtures and the letters of the card, and write campaign statistics and drawn cards to logs
+fs_permissions = [
+  { access = "read", path = "./test/fixtures" },
+  { access = "read", path = "./tools/card-glyphs.json" },
+  { access = "read-write", path = "./logs" },
+]
+
+# sized so that a plain forge test finishes in minutes
+[profile.default.fuzz]
+runs = 256
+
+# the handlers predict every call and revert on a wrong prediction, so a revert is a failure
+[profile.default.invariant]
+runs = 64
+depth = 64
+fail_on_revert = true
+call_override = false
+
+[profile.default.lint]
+lint_on_build = false
+
+# Full campaigns: FOUNDRY_PROFILE=deep forge test
+# Same compiler settings and build folders as the default profile.
+[profile.deep.fuzz]
+runs = 1000
+
+[profile.deep.invariant]
+runs = 512
+depth = 256
+fail_on_revert = true
+call_override = false
+
+# Halmos proofs: FOUNDRY_PROFILE=proofs forge build, then halmos (see tools/proofs).
+# Optimizer off and its own out and cache folders, so this build never mixes with the deploy build.
+# Dynamic test linking off: Foundry 1.8 turns it on by default and then builds each `new` of a source contract in a
+# proof as a deployCode cheat code, which Halmos 0.3.3 does not support, so every such proof fails in setUp.
+[profile.proofs]
+dynamic_test_linking = false
+test = "proofs"
+out = "out-proofs"
+cache_path = "cache-proofs"
+evm_version = "cancun"
+optimizer = false
+via_ir = true
+ast = true

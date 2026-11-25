@@ -1,0 +1,12 @@
+The runtime code of the Safe 1.4.1 contracts, as hex, loaded by test/unit/deploy/RealSafe.t.sol.
+
+Each file's keccak256 equals the code hash at its address on OP Mainnet (chain 10) and on Ethereum (chain 1),
+read with cast codehash on 5 October 2026: OP Mainnet at finalized block 157816287 from mainnet.optimism.io and
+at the latest block from optimism-rpc.publicnode.com, Ethereum at finalized block 26128547 from
+ethereum-rpc.publicnode.com and at the latest block from 1rpc.io.
+
+file             contract                        address                                     keccak256
+singleton.hex    Safe                            0x41675C099F32341bf84BFc5382aF534df5C7461a  0x1fe2df852ba3299d6534ef416eefa406e56ced995bca886ab7a553e6d0c5e1c4
+singletonL2.hex  SafeL2                          0x29fcB43b46531BcA003ddC8FCB67FFE91900C762  0xb1f926978a0f44a2c0ec8fe822418ae969bd8c3f18d61e5103100339894f81ff
+factory.hex      SafeProxyFactory                0x4e1DCf7AD4e460CfD30791CCC4F9c8a4f820ec67  0x50c3cdc4074750a7a974204a716c999edd37482f907608d960b2b025ee0b3317
+fallback.hex     CompatibilityFallbackHandler    0xfd0732Dc9E303f09fCEf3a7388Ad10A83459Ec99  0x7c6007a5d711cea8dfd5d91f5940ec29c7f200fe511eb1fc1397b367af3c42f9

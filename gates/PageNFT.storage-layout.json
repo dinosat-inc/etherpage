@@ -1,0 +1,445 @@
+{
+  "storage": [
+    {
+      "label": "records",
+      "slot": "0",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_struct(PageRecord)_storage)"
+    },
+    {
+      "label": "recordVersion",
+      "slot": "1",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_uint256)"
+    },
+    {
+      "label": "commitments",
+      "slot": "2",
+      "offset": 0,
+      "type": "t_mapping(t_bytes32,t_uint256)"
+    },
+    {
+      "label": "primaryPage",
+      "slot": "3",
+      "offset": 0,
+      "type": "t_mapping(t_address,t_uint256)"
+    },
+    {
+      "label": "referrerOf",
+      "slot": "4",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_uint256)"
+    },
+    {
+      "label": "depositOf",
+      "slot": "5",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_uint256)"
+    },
+    {
+      "label": "owed",
+      "slot": "6",
+      "offset": 0,
+      "type": "t_mapping(t_address,t_uint256)"
+    },
+    {
+      "label": "_resolvedAddress",
+      "slot": "7",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_address))"
+    },
+    {
+      "label": "_contenthash",
+      "slot": "8",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_bytes_storage))"
+    },
+    {
+      "label": "_coinAddr",
+      "slot": "9",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_uint256,t_struct(ChainAddress)_storage)))"
+    },
+    {
+      "label": "_text",
+      "slot": "10",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_string_memory_ptr,t_string_storage)))"
+    },
+    {
+      "label": "_addrSaver",
+      "slot": "11",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_address))"
+    },
+    {
+      "label": "_subpageMinter",
+      "slot": "12",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_struct(SubpageMinter)_storage)"
+    },
+    {
+      "label": "_primaryHolder",
+      "slot": "13",
+      "offset": 0,
+      "type": "t_mapping(t_address,t_address)"
+    },
+    {
+      "label": "trialPaymentOf",
+      "slot": "14",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_struct(TrialPayment)_storage)"
+    },
+    {
+      "label": "_profile",
+      "slot": "15",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_struct(Profile)_storage)"
+    },
+    {
+      "label": "holderSince",
+      "slot": "16",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_uint256)"
+    },
+    {
+      "label": "addressesUpdatedAt",
+      "slot": "17",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_uint256)"
+    },
+    {
+      "label": "_data",
+      "slot": "18",
+      "offset": 0,
+      "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_string_memory_ptr,t_struct(DataRecord)_storage)))"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_bytes32": {
+      "encoding": "inplace",
+      "label": "bytes32",
+      "numberOfBytes": "32"
+    },
+    "t_bytes_storage": {
+      "encoding": "bytes",
+      "label": "bytes",
+      "numberOfBytes": "32"
+    },
+    "t_mapping(t_address,t_address)": {
+      "encoding": "mapping",
+      "label": "mapping(address => address)",
+      "numberOfBytes": "32",
+      "key": "t_address",
+      "value": "t_address"
+    },
+    "t_mapping(t_address,t_uint256)": {
+      "encoding": "mapping",
+      "label": "mapping(address => uint256)",
+      "numberOfBytes": "32",
+      "key": "t_address",
+      "value": "t_uint256"
+    },
+    "t_mapping(t_bytes32,t_uint256)": {
+      "encoding": "mapping",
+      "label": "mapping(bytes32 => uint256)",
+      "numberOfBytes": "32",
+      "key": "t_bytes32",
+      "value": "t_uint256"
+    },
+    "t_mapping(t_string_memory_ptr,t_string_storage)": {
+      "encoding": "mapping",
+      "label": "mapping(string => string)",
+      "numberOfBytes": "32",
+      "key": "t_string_memory_ptr",
+      "value": "t_string_storage"
+    },
+    "t_mapping(t_string_memory_ptr,t_struct(DataRecord)_storage)": {
+      "encoding": "mapping",
+      "label": "mapping(string => struct PageNFT.DataRecord)",
+      "numberOfBytes": "32",
+      "key": "t_string_memory_ptr",
+      "value": "t_struct(DataRecord)_storage"
+    },
+    "t_mapping(t_uint256,t_address)": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => address)",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_address"
+    },
+    "t_mapping(t_uint256,t_bytes_storage)": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => bytes)",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_bytes_storage"
+    },
+    "t_mapping(t_uint256,t_mapping(t_string_memory_ptr,t_string_storage))": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => mapping(string => string))",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_mapping(t_string_memory_ptr,t_string_storage)"
+    },
+    "t_mapping(t_uint256,t_mapping(t_string_memory_ptr,t_struct(DataRecord)_storage))": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => mapping(string => struct PageNFT.DataRecord))",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_mapping(t_string_memory_ptr,t_struct(DataRecord)_storage)"
+    },
+    "t_mapping(t_uint256,t_mapping(t_uint256,t_address))": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => mapping(uint256 => address))",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_mapping(t_uint256,t_address)"
+    },
+    "t_mapping(t_uint256,t_mapping(t_uint256,t_bytes_storage))": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => mapping(uint256 => bytes))",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_mapping(t_uint256,t_bytes_storage)"
+    },
+    "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_string_memory_ptr,t_string_storage)))": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => mapping(uint256 => mapping(string => string)))",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_mapping(t_uint256,t_mapping(t_string_memory_ptr,t_string_storage))"
+    },
+    "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_string_memory_ptr,t_struct(DataRecord)_storage)))": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => mapping(uint256 => mapping(string => struct PageNFT.DataRecord)))",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_mapping(t_uint256,t_mapping(t_string_memory_ptr,t_struct(DataRecord)_storage))"
+    },
+    "t_mapping(t_uint256,t_mapping(t_uint256,t_mapping(t_uint256,t_struct(ChainAddress)_storage)))": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => mapping(uint256 => mapping(uint256 => struct PageNFT.ChainAddress)))",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(ChainAddress)_storage))"
+    },
+    "t_mapping(t_uint256,t_mapping(t_uint256,t_struct(ChainAddress)_storage))": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => mapping(uint256 => struct PageNFT.ChainAddress))",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_mapping(t_uint256,t_struct(ChainAddress)_storage)"
+    },
+    "t_mapping(t_uint256,t_struct(ChainAddress)_storage)": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => struct PageNFT.ChainAddress)",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_struct(ChainAddress)_storage"
+    },
+    "t_mapping(t_uint256,t_struct(PageRecord)_storage)": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => struct PageNFT.PageRecord)",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_struct(PageRecord)_storage"
+    },
+    "t_mapping(t_uint256,t_struct(Profile)_storage)": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => struct PageNFT.Profile)",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_struct(Profile)_storage"
+    },
+    "t_mapping(t_uint256,t_struct(SubpageMinter)_storage)": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => struct PageNFT.SubpageMinter)",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_struct(SubpageMinter)_storage"
+    },
+    "t_mapping(t_uint256,t_struct(TrialPayment)_storage)": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => struct PageNFT.TrialPayment)",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_struct(TrialPayment)_storage"
+    },
+    "t_mapping(t_uint256,t_uint256)": {
+      "encoding": "mapping",
+      "label": "mapping(uint256 => uint256)",
+      "numberOfBytes": "32",
+      "key": "t_uint256",
+      "value": "t_uint256"
+    },
+    "t_string_memory_ptr": {
+      "encoding": "bytes",
+      "label": "string",
+      "numberOfBytes": "32"
+    },
+    "t_string_storage": {
+      "encoding": "bytes",
+      "label": "string",
+      "numberOfBytes": "32"
+    },
+    "t_struct(ChainAddress)_storage": {
+      "encoding": "inplace",
+      "label": "struct PageNFT.ChainAddress",
+      "numberOfBytes": "64",
+      "members": [
+        {
+          "label": "saver",
+          "slot": "0",
+          "offset": 0,
+          "type": "t_address"
+        },
+        {
+          "label": "value",
+          "slot": "1",
+          "offset": 0,
+          "type": "t_bytes_storage"
+        }
+      ]
+    },
+    "t_struct(DataRecord)_storage": {
+      "encoding": "inplace",
+      "label": "struct PageNFT.DataRecord",
+      "numberOfBytes": "64",
+      "members": [
+        {
+          "label": "saver",
+          "slot": "0",
+          "offset": 0,
+          "type": "t_address"
+        },
+        {
+          "label": "value",
+          "slot": "1",
+          "offset": 0,
+          "type": "t_bytes_storage"
+        }
+      ]
+    },
+    "t_struct(PageRecord)_storage": {
+      "encoding": "inplace",
+      "label": "struct PageNFT.PageRecord",
+      "numberOfBytes": "96",
+      "members": [
+        {
+          "label": "label",
+          "slot": "0",
+          "offset": 0,
+          "type": "t_string_storage"
+        },
+        {
+          "label": "parent",
+          "slot": "1",
+          "offset": 0,
+          "type": "t_uint256"
+        },
+        {
+          "label": "expiresAt",
+          "slot": "2",
+          "offset": 0,
+          "type": "t_uint64"
+        },
+        {
+          "label": "epoch",
+          "slot": "2",
+          "offset": 8,
+          "type": "t_uint64"
+        },
+        {
+          "label": "parentEpoch",
+          "slot": "2",
+          "offset": 16,
+          "type": "t_uint64"
+        }
+      ]
+    },
+    "t_struct(Profile)_storage": {
+      "encoding": "inplace",
+      "label": "struct PageNFT.Profile",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "label": "writer",
+          "slot": "0",
+          "offset": 0,
+          "type": "t_address"
+        },
+        {
+          "label": "version",
+          "slot": "0",
+          "offset": 20,
+          "type": "t_uint96"
+        }
+      ]
+    },
+    "t_struct(SubpageMinter)_storage": {
+      "encoding": "inplace",
+      "label": "struct PageNFT.SubpageMinter",
+      "numberOfBytes": "64",
+      "members": [
+        {
+          "label": "minter",
+          "slot": "0",
+          "offset": 0,
+          "type": "t_address"
+        },
+        {
+          "label": "epoch",
+          "slot": "0",
+          "offset": 20,
+          "type": "t_uint64"
+        },
+        {
+          "label": "setter",
+          "slot": "1",
+          "offset": 0,
+          "type": "t_address"
+        }
+      ]
+    },
+    "t_struct(TrialPayment)_storage": {
+      "encoding": "inplace",
+      "label": "struct PageNFT.TrialPayment",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "label": "payer",
+          "slot": "0",
+          "offset": 0,
+          "type": "t_address"
+        },
+        {
+          "label": "amount",
+          "slot": "0",
+          "offset": 20,
+          "type": "t_uint96"
+        }
+      ]
+    },
+    "t_uint256": {
+      "encoding": "inplace",
+      "label": "uint256",
+      "numberOfBytes": "32"
+    },
+    "t_uint64": {
+      "encoding": "inplace",
+      "label": "uint64",
+      "numberOfBytes": "8"
+    },
+    "t_uint96": {
+      "encoding": "inplace",
+      "label": "uint96",
+      "numberOfBytes": "12"
+    }
+  }
+}

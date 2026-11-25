@@ -1,0 +1,28 @@
+The runtime code of the Coinbase Smart Wallet contracts and of the ERC4337 EntryPoint v0.6 they use, as hex,
+loaded by test/unit/deploy/RealCoinbaseWallet.t.sol.
+
+Each file is the eth_getCode answer at its address on OP Mainnet (chain 10) at finalized block 159074208
+(3 November 2026, 23:06:33 UTC) from mainnet.optimism.io, read on 4 November 2026. Its keccak256 equals the code
+hash that node gives for the address at that block (eth_getProof), and the keccak256 of the code at the latest block
+from optimism-rpc.publicnode.com and 1rpc.io/op. The same code is at the same addresses on Base (mainnet.base.org)
+and Ethereum (ethereum-rpc.publicnode.com).
+
+The factory and wallet addresses are the ones the github.com/coinbase/smart-wallet README lists for versions 1 and
+1.1, and the ones its script/DeployFactory.s.sol checks at tags v1.0.0 and v1.1.0. On OP Mainnet implementation()
+of each factory names its wallet, and entryPoint() of both wallets names the EntryPoint v0.6. The EntryPoint makes
+each new account through the SenderCreator it deployed, whose address is an immutable in the EntryPoint code.
+
+file               contract                          address                                     keccak256
+factory.hex        CoinbaseSmartWalletFactory 1      0x0BA5ED0c6AA8c49038F819E587E2633c4A9F428a  0xc4900c000fd23885462a115b872741ad2b1e7ff2d7889aee18bc4d4bef3728f6
+wallet.hex         CoinbaseSmartWallet 1             0x000100abaad02f1cfC8Bbe32bD5a564817339E72  0x179bcb847d3401ac830789a21cc37ed846fd5da9582a9c9d4b5140b6f26bd1a1
+factory11.hex      CoinbaseSmartWalletFactory 1.1    0xBA5ED110eFDBa3D005bfC882d75358ACBbB85842  0xb60a629aa7c6af9b550871fd21b67ab84638156683cec68491049cb5d235ed2f
+wallet11.hex       CoinbaseSmartWallet 1.1           0x00000110dCdEdC9581cb5eCB8467282f2926534d  0x136185896fc519277ec953c0b3d048fc0c9f607b8d04022e60f23ef8dbc6c4d5
+entrypoint.hex     EntryPoint v0.6                   0x5FF137D4b0FDCD49DcA30c7CF57E578a026d2789  0xc93c806e738300b5357ecdc2e971d6438d34d8e4e17b99b758b1f9cac91c8e70
+sendercreator.hex  SenderCreator of EntryPoint v0.6  0x7fc98430eaedbb6070b35b39d798725049088348  0xae818091eaaf1b6175ee41472359a689f3823d0908a41e2e5c4ad508f2fc04a3
+
+Every wallet the two factories make is the same 61 byte ERC1967 proxy, which the test checks against this code hash.
+It is the code hash at that block of 0xcdf8cf9a63cde607d5eab61505e14e9e44ea2198 and
+0x64e689baa6cb797f12832d15bc37306e2bc23083, made by factory 1, and of 0x8da6eb943b81777da1a13551e86606950ae85f3b,
+made by factory 1.1, all found through the AccountDeployed events of the EntryPoint on OP Mainnet.
+
+proxy              ERC1967 proxy of each wallet                                                  0xaaa52c8cc8a0e3fd27ce756cc6b4e70c51423e9b597b11f32d3e49f8b1fc890d
